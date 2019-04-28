@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>solr文件处理系统</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<style type="text/css">
+*{margin:0; padding:0; font-size:14px;}
+a{text-decoration:none}
+.menu{list-style:none; height:30px; border-bottom:10px solid #69B4FD; margin-top:20px; padding-left:50px;}
+.menu li{float:left}
+.menu li a{display:block; height:30px;text-align:center; line-height:30px; width:80px; margin-left:1px;}
+</style>
+<script src="js/vendor/jquery-2.2.4.min.js" th:src="@{/static/js/vendor/jquery-2.2.4.min.js}"></script>
+</head>
+<body>
+<div>
+	<div style="heigth:30%" id="mainMenu">
+		<ul class="menu">
+		    <li><a target="/fileManage" style="cursor:pointer">文件管理</a></li>
+		    <li><a target="/search" style="cursor:pointer">文件检索</a></li>
+	    </ul>
+	</div>
+	<div id ="mainContent" style="heigth:70%">
+	</div>
+</div>
+ <script>        
+$(function () {
+	$.get("/fileManage", function (data) {
+		$("#mainContent").html(data);//初始化加载界面
+		$('#mainMenu ul li').each(function(){
+			var current = $(this);
+			target=current.find('a').attr('target');
+			if(target=='/fileManage'){
+				current.find('a').css('color','#69B4FD');
+			}
+		});
+	}); 
+	$('#mainMenu ul li').click(function () {//点击li加载界面                      
+		var current = $(this);                           
+		current.find('a').css('color','#69B4FD');
+		target = current.find('a').attr('target'); // 找到链接a中的targer的值    
+		$.get(target, function (data) {                        
+			$("#mainContent").html(data);                   
+		});
+		$('#mainMenu ul li').each(function(){
+			var current1 = $(this);
+			target1=current1.find('a').attr('target');
+			if(target1!=target){
+				current1.find('a').css('color','');
+			}
+		});
+	});             
+});        
+</script>
+
+</body>
+</html>

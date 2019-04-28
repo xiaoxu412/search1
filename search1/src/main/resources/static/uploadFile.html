@@ -1,0 +1,49 @@
+<!DOCTYPE html >
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="js/vendor/jquery-2.2.4.min.js" th:src="@{/static/js/vendor/jquery-2.2.4.min.js}"></script>
+
+    <title>上传文件</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script>
+	    /*<![CDATA[*/
+	    var ctxPath = /*[[@{/}]]*/ '';
+	    /*]]>*/
+    	function uploadFile(){
+    		var projectCode = $("#projectCode").val();
+    		if(projectCode==""||projectCode=="undefined"||projectCode==null){
+    			alert("项目编号不能为空");
+    		}else if(projectCode!=""){
+    			var form = new FormData($("#uploadFileForm")[0]);
+             $.ajax({
+                 url:ctxPath+"/uploadFile",
+                 type:"post",
+                 data:form,
+                 processData:false,
+                 contentType:false,
+                 success:function(data){
+                	 console.log(data);
+                	 if(data=="success"){
+                		 alert("上传成功");
+                		 window.opener.location.reload();
+                		 window.close(); 
+                	 }
+                 },
+                 error:function(e){
+                     alert("错误！！");
+                 }
+             }); 
+    	  }
+    		
+    }
+    </script>
+</head>
+<body style="padding: 10px">
+    <form action="#" method="post" enctype="multipart/form-data" id="uploadFileForm">
+    	项目编号  <input type="text" id="projectCode" name="projectCode">
+	    <input type="file" name="fileName" value="选择文件"/>
+	    <input type="button" value="上传文件" onclick="uploadFile()"/>
+    </form>
+    
+</body>
+</html>

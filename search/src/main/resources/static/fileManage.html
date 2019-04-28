@@ -1,0 +1,56 @@
+<!DOCTYPE html >
+<html lang="zxx" class="no-js" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>文件管理</title>
+    </head>
+    <style type="text/css"></style>
+    <script src="js/vendor/jquery-2.2.4.min.js" th:src="@{/static/js/vendor/jquery-2.2.4.min.js}"></script>
+
+<body>
+    <div style="width:80%;">
+        <br>
+        <div  style="width:100%;heighth:10%"><span style="color:#69B4FD">添加文件</span></div>
+        <br>
+        <div style="float:left;width:30%">
+           <input type="button" value="solr构建索引文件" onclick="openFileUpload();" style="color:#69B4FD">
+        </div>
+        <div style="float:right">
+            <input type="button" value="全量索引构建" onclick="fullBuildIndex();" style="color:#69B4FD">
+            <input type="button" value="增量索引构建" onclick="spikeBuildIndex();" style="color:#69B4FD">
+        </div>
+        <br><br>
+        <div style="width:100%" align="center">
+             <table border="1">
+                 <tr>
+                     <th>id</th>
+                     <th>filename</th>
+                     <th>url</th>
+                 </tr>
+                 <tr  th:each="file : ${files}">
+                     <td th:text="${file.id}"></td>
+                     <td th:text="${file.filename}"></td>
+                     <td th:text="${file.url}"></td>
+                 </tr>
+             </table>
+         </div>
+    </div>
+    <script>
+        /*<![CDATA[*/
+        var ctxPath = /*[[@{/}]]*/ '';
+        /*]]>*/
+        function openFileUpload(){
+            window.open ("/initUploadFile", "newwindow", "height=100, width=400, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no");
+        }
+
+        function fullBuildIndex(){
+             var url = ctxPath + "/doc/dataimport";
+             $.get(url,function(data){
+                 if(data == "success") alert(data);
+             })
+        }
+        function spikeBuildIndex(){
+        }
+    </script>
+</body>
+</html>
